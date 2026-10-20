@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Services/" />
+  <Folder Name="/Services/Booking/">
+    <Project Path="BookingAPI/BookingAPI.csproj" />
+  </Folder>
+  <Folder Name="/Services/Catalog/">
+    <Project Path="CatalogAPI/CatalogAPI.csproj" />
+  </Folder>
+  <Project Path="KASSERVICES.AppHost/KASSERVICES.AppHost.csproj" />
+  <Project Path="KASSERVICES.ServiceDefaults/KASSERVICES.ServiceDefaults.csproj" />
+</Solution>
