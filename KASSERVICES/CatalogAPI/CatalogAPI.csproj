@@ -27,8 +27,5 @@
     <ProjectReference Include="..\KASSERVICES.ServiceDefaults\KASSERVICES.ServiceDefaults.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
+  
 </Project>
