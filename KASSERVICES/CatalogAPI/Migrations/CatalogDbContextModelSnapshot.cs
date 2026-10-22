@@ -73,6 +73,9 @@ namespace CatalogAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
 

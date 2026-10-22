@@ -1,8 +1,11 @@
-﻿using CatalogAPI.Features.Movies.CreateMovie;
+﻿using CatalogAPI.Features.Movies.ArchiveMovie;
+using CatalogAPI.Features.Movies.CreateMovie;
+using CatalogAPI.Features.Movies.DeleteMovie;
 using CatalogAPI.Features.Movies.GetMovieById;
 using CatalogAPI.Features.Movies.GetMovies;
+using CatalogAPI.Features.Movies.RestoreMovie;
+using CatalogAPI.Features.Movies.UpdateMovie;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogAPI.Controllers
@@ -36,6 +39,42 @@ namespace CatalogAPI.Controllers
         {
             var movie = await mediator.Send(new GetMovieByIdQuery(id), cancellationToken);
             return movie is null ? NotFound() : Ok(movie);
+        }
+
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMovieCommand command, CancellationToken ct)
+        {
+            await mediator.Send(command with { Id = id }, ct);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/archive")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Archive(Guid id, CancellationToken ct)
+        {
+            await mediator.Send(new ArchiveMovieCommand(id), ct);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/restore")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Restore(Guid id, CancellationToken ct)
+        {
+            await mediator.Send(new RestoreMovieCommand(id), ct);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+        {
+            await mediator.Send(new DeleteMovieCommand(id), ct);
+            return NoContent();
         }
     }
 }

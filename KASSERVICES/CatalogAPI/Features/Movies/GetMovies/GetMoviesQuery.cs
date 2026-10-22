@@ -1,5 +1,4 @@
-﻿using CatalogAPI.Features.Movies.GetMovieById;
-using MediatR;
+﻿using MediatR;
 
 namespace CatalogAPI.Features.Movies.GetMovies;
 
@@ -10,6 +9,5 @@ public record MovieDto(
     int ReleaseYear,
     int CassettesCount
 );
-
 
 public record GetMoviesQuery() : IRequest<List<MovieDto>>;

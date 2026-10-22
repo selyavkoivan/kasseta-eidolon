@@ -1,6 +1,4 @@
-﻿using CatalogAPI.Common.Interfaces;
-using CatalogAPI.Data;
-using CatalogAPI.Services;
+﻿using CatalogAPI.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

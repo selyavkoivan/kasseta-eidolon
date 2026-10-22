@@ -7,4 +7,17 @@ public class Movie
     public List<Genre> Genres { get; set; } = [];
     public int ReleaseYear { get; set; }
     public List<Cassette> Cassettes { get; set; } = [];
+    public bool IsArchived { get; private set; }
+
+    public void Archive()
+    {
+        if (IsArchived) return;
+        IsArchived = true;
+    }
+
+    public void Restore()
+    {
+        if (!IsArchived) return;
+        IsArchived = false;
+    }
 }

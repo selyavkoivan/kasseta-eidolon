@@ -1,5 +1,4 @@
 ﻿using CatalogAPI.Data;
-using CatalogAPI.Features.Movies.GetMovieById;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
