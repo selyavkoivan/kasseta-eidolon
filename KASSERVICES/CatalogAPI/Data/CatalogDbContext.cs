@@ -7,6 +7,7 @@ public class CatalogDbContext: DbContext
 {
     public DbSet<Movie> Movies => Set<Movie>();
     public DbSet<Cassette> Cassettes => Set<Cassette>();
+    public DbSet<Genre> Genres => Set<Genre>();
 
     public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options) 
     { 

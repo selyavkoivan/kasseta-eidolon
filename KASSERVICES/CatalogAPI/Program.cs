@@ -1,4 +1,6 @@
+using CatalogAPI.Common.Interfaces;
 using CatalogAPI.Data;
+using CatalogAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -27,6 +29,14 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+//mediatR
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+//Genre resolver
+builder.Services.AddScoped<IGenreResolver, GenreResolver>();
+
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -36,6 +46,12 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API v1");
+});
 
 app.UseHttpsRedirection();
 
