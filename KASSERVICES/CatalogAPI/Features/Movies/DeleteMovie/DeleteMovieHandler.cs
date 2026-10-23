@@ -13,7 +13,7 @@ public class DeleteMovieHandler(CatalogDbContext dbContext) : IRequestHandler<De
     {
 
         var movie = await dbContext.Movies.FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken)
-                        ?? throw new InvalidOperationException("Movie is not found"); ;
+                        ?? throw new InvalidOperationException("Movie is not found");
 
         if(!movie.IsArchived)
         {
