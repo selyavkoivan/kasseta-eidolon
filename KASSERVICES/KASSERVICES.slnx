@@ -6,6 +6,9 @@
   <Folder Name="/Services/Catalog/">
     <Project Path="CatalogAPI/CatalogAPI.csproj" />
   </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="Contracts/Shared.Contracts.csproj" Id="44a30c9a-cc7f-4a02-b78e-570d32497f0a" />
+  </Folder>
   <Project Path="KASSERVICES.AppHost/KASSERVICES.AppHost.csproj" />
   <Project Path="KASSERVICES.ServiceDefaults/KASSERVICES.ServiceDefaults.csproj" />
 </Solution>

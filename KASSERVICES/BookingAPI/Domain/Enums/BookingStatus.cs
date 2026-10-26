@@ -2,6 +2,7 @@
 
 public enum BookingStatus
 {
+    Pending,
     Active,
     Returned,
     Overdue,

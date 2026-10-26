@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Shared.Contracts.csproj" />
     <ProjectReference Include="..\KASSERVICES.ServiceDefaults\KASSERVICES.ServiceDefaults.csproj" />
   </ItemGroup>
 
