@@ -1,4 +1,6 @@
+using BookingAPI.Consumers;
 using BookingAPI.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -27,6 +29,35 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// mediatR
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+// RabbitMQ
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<BookingConfirmedConsumer>();
+    x.AddConsumer<BookingRejectedConsumer>();
+
+    x.AddEntityFrameworkOutbox<BookingDbContext>(o =>
+    {
+        o.UseSqlServer();
+        o.UseBusOutbox();
+    });
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("host.docker.internal", "/", h =>
+        {
+            h.Username("appuser");
+            h.Password("apppassword");
+        });
+
+        cfg.ReceiveEndpoint("booking-confirmed-queue", e => e.ConfigureConsumer<BookingConfirmedConsumer>(context));
+        cfg.ReceiveEndpoint("booking-rejected-queue", e => e.ConfigureConsumer<BookingRejectedConsumer>(context));
+    });
+});
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -36,6 +67,12 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API v1");
+});
 
 app.UseHttpsRedirection();
 

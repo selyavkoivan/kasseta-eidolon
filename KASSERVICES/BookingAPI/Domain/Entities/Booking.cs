@@ -16,20 +16,22 @@ public class Booking
 
     public BookingStatus Status { get; set; } = BookingStatus.Pending;
 
-    public void Return()
+    public void Confirm()
     {
-        if (Status != BookingStatus.Active && Status != BookingStatus.Overdue)
-            throw new InvalidOperationException("Only active or overdue bookings can be returned.");
-
-        Status = BookingStatus.Returned;
-        ReturnedAt = DateTimeOffset.UtcNow;
+        if (Status == BookingStatus.Pending) Status = BookingStatus.Active;
     }
 
-    public void Cancel()
+    public void Reject()
     {
-        if (Status != BookingStatus.Active)
-            throw new InvalidOperationException("Only active bookings can be cancelled.");
+        if (Status == BookingStatus.Pending) Status = BookingStatus.Cancelled;
+    }
 
-        Status = BookingStatus.Cancelled;
+    public void Return()
+    {
+        if (Status == BookingStatus.Active)
+        {
+            Status = BookingStatus.Returned;
+            ReturnedAt = DateTimeOffset.UtcNow;
+        }
     }
 }
