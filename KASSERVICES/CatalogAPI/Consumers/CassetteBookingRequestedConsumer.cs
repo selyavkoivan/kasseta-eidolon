@@ -17,7 +17,7 @@ public class CassetteBookingRequestedConsumer(CatalogDbContext db)
 
         if (cassette == null || cassette.Status != CassetteStatus.Available)
         {
-            await context.Publish(new CassetteBookingRejected(
+            await context.RespondAsync(new CassetteBookingRejected(
                 msg.BookingId,
                 msg.CassetteId,
                 "Cassette is not available."));
@@ -27,7 +27,7 @@ public class CassetteBookingRequestedConsumer(CatalogDbContext db)
         cassette.Status = CassetteStatus.Rented;
         await db.SaveChangesAsync();
 
-        await context.Publish(new CassetteBookingConfirmed(
+        await context.RespondAsync(new CassetteBookingConfirmed(
             msg.BookingId,
             msg.CassetteId,
             DateTimeOffset.UtcNow));

@@ -14,7 +14,7 @@ public class Booking
     public DateTimeOffset DueDate { get; set; }
     public DateTimeOffset? ReturnedAt { get; set; }
 
-    public BookingStatus Status { get; set; } = BookingStatus.Pending;
+    public BookingStatus Status { get; set; } = BookingStatus.Active;
 
     public void Confirm()
     {
