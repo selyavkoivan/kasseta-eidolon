@@ -6,7 +6,7 @@ namespace BookingAPI.Features.Bookings.GetBookingById;
 
 public class GetBookingByIdHandler(BookingDbContext db) : IRequestHandler<GetBookingByIdQuery, BookingDetailsDto?>
 {
-    public async Task<BookingDetailsDto?> Handle(GetBookingByIdQuery request, CancellationToken ct)
+    public async Task<BookingDetailsDto?> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {
         return await db.Bookings
             .AsNoTracking()
@@ -19,6 +19,6 @@ public class GetBookingByIdHandler(BookingDbContext db) : IRequestHandler<GetBoo
                 b.DueDate,
                 b.Status.ToString()
             ))
-            .FirstOrDefaultAsync(ct);
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }
