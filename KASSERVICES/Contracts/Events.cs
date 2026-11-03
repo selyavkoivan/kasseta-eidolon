@@ -1,24 +1,11 @@
 ﻿namespace Shared.Contracts;
 
-public record CassetteRegistered(
-    Guid CassetteId,
-    Guid MovieId,
-    string InventoryNumber,
-    DateTimeOffset OccurredAt);
+// booking
 
 public record CassetteBookingRequested(
-    Guid BookingId,    Guid CassetteId,
+    Guid BookingId,    
+    Guid CassetteId,
     DateTimeOffset RequestedAt);
-
-public record CassetteBooked(
-    Guid BookingId,
-    Guid CassetteId,
-    DateTimeOffset BookedAt);
-
-public record CassetteReturned(
-    Guid CassetteId,
-    Guid MovieId,
-    DateTimeOffset ReturnedAt);
 
 public record CassetteBookingConfirmed(
     Guid BookingId,
@@ -26,6 +13,23 @@ public record CassetteBookingConfirmed(
     DateTimeOffset ConfirmedAt);
 
 public record CassetteBookingRejected(
+    Guid BookingId,
+    Guid CassetteId,
+    string Reason);
+
+// returning
+public record CassetteReturnRequested(
+    Guid BookingId, 
+    Guid CassetteId,
+    DateTimeOffset RequestedAt);
+
+
+public record CassetteReturnConfirmed(
+    Guid BookingId,
+    Guid CassetteId,
+    DateTimeOffset ReturnedAt);
+
+public record CassetteReturnRejected(
     Guid BookingId,
     Guid CassetteId,
     string Reason);

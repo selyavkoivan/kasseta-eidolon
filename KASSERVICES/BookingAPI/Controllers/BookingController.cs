@@ -1,5 +1,6 @@
 ﻿using BookingAPI.Features.Bookings.CreateBooking;
 using BookingAPI.Features.Bookings.GetBookingById;
+using BookingAPI.Features.Bookings.ReturnBooking;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,5 +45,14 @@ public class BookingController(IMediator mediator) : ControllerBase
     {
         var booking = await mediator.Send(new GetBookingByMovieIdQuery(id), cancellationToken);
         return booking is null ? NotFound() : Ok(booking);
+    }
+
+    [HttpPatch("{id:guid}/return")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Return(Guid id, CancellationToken ct)
+    {
+        await mediator.Send(new ReturnBookingCommand(id), ct);
+        return NoContent();
     }
 }

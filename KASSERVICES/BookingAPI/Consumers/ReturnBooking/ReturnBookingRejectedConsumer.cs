@@ -5,15 +5,15 @@ using Shared.Contracts;
 
 namespace BookingAPI.Consumers;
 
-public class BookingRejectedConsumer(BookingDbContext db, ILogger<BookingRejectedConsumer> logger)
-    : IConsumer<CassetteBookingRejected>
+public class ReturnBookingRejectedConsumer(BookingDbContext db, ILogger<ReturnBookingRejectedConsumer> logger)
+    : IConsumer<CassetteReturnRejected>
 {
-    public async Task Consume(ConsumeContext<CassetteBookingRejected> context)
+    public async Task Consume(ConsumeContext<CassetteReturnRejected> context)
     {
         var booking = await db.Bookings.FirstOrDefaultAsync(b => b.Id == context.Message.BookingId);
         if (booking == null) return;
 
-        logger.LogWarning("Booking {BookingId} rejected: {Reason}", booking.Id, context.Message.Reason);
+        logger.LogWarning("Booking {BookingId} return rejected: {Reason}", booking.Id, context.Message.Reason);
 
         booking.Reject();
         await db.SaveChangesAsync();

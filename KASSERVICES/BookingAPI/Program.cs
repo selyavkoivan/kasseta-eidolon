@@ -1,4 +1,5 @@
 using BookingAPI.Consumers;
+using BookingAPI.Consumers.Booking;
 using BookingAPI.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,10 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<BookingConfirmedConsumer>();
     x.AddConsumer<BookingRejectedConsumer>();
 
+
+    x.AddConsumer<ReturnBookingConfirmedConsumer>();
+    x.AddConsumer<ReturnBookingRejectedConsumer>();
+
     x.AddEntityFrameworkOutbox<BookingDbContext>(o =>
     {
         o.UseSqlServer();
@@ -52,9 +57,6 @@ builder.Services.AddMassTransit(x =>
             h.Username("appuser");
             h.Password("apppassword");
         });
-
-        cfg.ReceiveEndpoint("booking-confirmed-queue", e => e.ConfigureConsumer<BookingConfirmedConsumer>(context));
-        cfg.ReceiveEndpoint("booking-rejected-queue", e => e.ConfigureConsumer<BookingRejectedConsumer>(context));
     });
 });
 

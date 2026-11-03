@@ -40,8 +40,9 @@ builder.Services.AddScoped<IGenreResolver, GenreResolver>();
 
 builder.Services.AddMassTransit(x =>
 {
-
     x.AddConsumer<CassetteBookingRequestedConsumer>();
+    x.AddConsumer<CassetteReturnRequestedConsumer>();
+ 
     x.AddEntityFrameworkOutbox<CatalogDbContext>(o =>
     {
         o.UseSqlServer();
