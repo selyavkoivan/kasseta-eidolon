@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Catalog Service API",
+        Title = "Booking Service API",
         Version = "v1"
     });
 });
@@ -34,6 +34,9 @@ builder.Services.AddSwaggerGen(options =>
 // mediatR
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+// authorization
+builder.Services.AddAuthorization();
 
 // RabbitMQ
 builder.Services.AddMassTransit(x =>
@@ -43,7 +46,7 @@ builder.Services.AddMassTransit(x =>
 
     x.AddConsumer<ReturnBookingConfirmedConsumer>();
     x.AddConsumer<ReturnBookingRejectedConsumer>();
-
+    
     x.AddConsumer<BookingExtendConfirmedConsumer>();
     x.AddConsumer<BookingExtendRejectedConsumer>();
 
@@ -55,11 +58,17 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("host.docker.internal", "/", h =>
+        var host = builder.Configuration["RabbitMq:Host"] ?? "host.docker.internal";
+        var username = builder.Configuration["RabbitMq:Username"]!;
+        var password = builder.Configuration["RabbitMq:Password"]!;
+
+        cfg.Host(host, "/", h =>
         {
-            h.Username("appuser");
-            h.Password("apppassword");
+            h.Username(username);
+            h.Password(password);
         });
+
+        cfg.ConfigureEndpoints(context);
     });
 });
 
@@ -70,14 +79,12 @@ app.MapDefaultEndpoints();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Booking API v1");
+    });
 }
-
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog API v1");
-});
 
 app.UseHttpsRedirection();
 
