@@ -63,9 +63,9 @@ public class BookingController(IMediator mediator) : ControllerBase
     [HttpPatch("{id:guid}/extend")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Extend(ExtendBookingCommand command, CancellationToken ct) 
+    public async Task<IActionResult> Extend(Guid id, [FromBody] DateOffset offset, CancellationToken ct) 
     {
-        var booking = await mediator.Send(command, ct);
+        var booking = await mediator.Send(new ExtendBookingCommand(id, offset.Months, offset.Days), ct);
         return booking is null ? NotFound() : Ok(booking);
     }
 }

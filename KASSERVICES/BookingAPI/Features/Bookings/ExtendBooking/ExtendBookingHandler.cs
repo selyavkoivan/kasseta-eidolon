@@ -7,7 +7,7 @@ using Shared.Contracts;
 
 namespace BookingAPI.Features.Bookings.ExtendBooking;
 
-public class ExtendBookingHandler(BookingDbContext dbContext, IRequestClient<CassetteReturnRequested> requestClient) : IRequestHandler<ExtendBookingCommand, BookingDetailsDto>
+public class ExtendBookingHandler(BookingDbContext dbContext, IRequestClient<BookingExtendRequested> requestClient) : IRequestHandler<ExtendBookingCommand, BookingDetailsDto>
 {
     public async Task<BookingDetailsDto> Handle(ExtendBookingCommand request, CancellationToken cancellationToken)
     {
@@ -42,9 +42,8 @@ public class ExtendBookingHandler(BookingDbContext dbContext, IRequestClient<Cas
         }
 
         booking.DueDate = booking.DueDate
-                .AddYears(request.DueDateExtension.Year)
-                .AddMonths(request.DueDateExtension.Month)
-                .AddDays(request.DueDateExtension.Day);
+                .AddMonths(request.Months)
+                .AddDays(request.Days);
 
         if (booking.DueDate <= DateTimeOffset.UtcNow)
             booking.Status = BookingStatus.Active;
