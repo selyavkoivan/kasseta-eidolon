@@ -15,6 +15,8 @@ public class ReturnBookingHandler(BookingDbContext dbContext, IRequestClient<Cas
         var booking = await dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken)
             ?? throw new InvalidOperationException("Booking is not found"); ;
 
+        if (booking.Status != BookingStatus.Active && booking.Status != BookingStatus.Overdue)
+            throw new InvalidOperationException("Only active bookings can be returned.");
 
         Response<CassetteReturnConfirmed, CassetteReturnRejected> response;
         try

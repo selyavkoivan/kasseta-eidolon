@@ -1,4 +1,5 @@
 ﻿using BookingAPI.Data;
+using BookingAPI.Domain.Enums;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,9 @@ public class ExtendBookingHandler(BookingDbContext dbContext, IRequestClient<Cas
         var booking = await dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken)
            ?? throw new InvalidOperationException("Booking is not found");
 
+
+        if (booking.Status != BookingStatus.Active && booking.Status != BookingStatus.Overdue)
+            throw new InvalidOperationException("Only active bookings can be extendet.");
 
         Response<BookingExtendConfirmed, BookingExtendRejected> response;
         try
@@ -41,6 +45,9 @@ public class ExtendBookingHandler(BookingDbContext dbContext, IRequestClient<Cas
                 .AddYears(request.DueDateExtension.Year)
                 .AddMonths(request.DueDateExtension.Month)
                 .AddDays(request.DueDateExtension.Day);
+
+        if (booking.DueDate <= DateTimeOffset.UtcNow)
+            booking.Status = BookingStatus.Active;
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
