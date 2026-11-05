@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.3.6" />
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.3.6" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.3.6" />
     <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="MessagePack" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.13" />
@@ -24,7 +27,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Contracts\Shared.Contracts.csproj" />
     <ProjectReference Include="..\KASSERVICES.ServiceDefaults\KASSERVICES.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   

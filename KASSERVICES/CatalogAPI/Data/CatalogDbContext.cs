@@ -1,4 +1,5 @@
 ﻿using CatalogAPI.Domain.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Data;
@@ -17,5 +18,10 @@ public class CatalogDbContext: DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
+
+
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
     }
 }

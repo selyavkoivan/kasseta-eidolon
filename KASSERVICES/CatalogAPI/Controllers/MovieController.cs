@@ -44,36 +44,36 @@ namespace CatalogAPI.Controllers
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMovieCommand command, CancellationToken ct)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateMovieCommand command, CancellationToken cancellationToken)
         {
-            await mediator.Send(command with { Id = id }, ct);
+            await mediator.Send(command with { Id = id }, cancellationToken);
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/archive")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Archive(Guid id, CancellationToken ct)
+        public async Task<IActionResult> Archive(Guid id, CancellationToken cancellationToken)
         {
-            await mediator.Send(new ArchiveMovieCommand(id), ct);
+            await mediator.Send(new ArchiveMovieCommand(id), cancellationToken);
             return NoContent();
         }
 
         [HttpPatch("{id:guid}/restore")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Restore(Guid id, CancellationToken ct)
+        public async Task<IActionResult> Restore(Guid id, CancellationToken cancellationToken)
         {
-            await mediator.Send(new RestoreMovieCommand(id), ct);
+            await mediator.Send(new RestoreMovieCommand(id), cancellationToken);
             return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await mediator.Send(new DeleteMovieCommand(id), ct);
+            await mediator.Send(new DeleteMovieCommand(id), cancellationToken);
             return NoContent();
         }
     }

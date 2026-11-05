@@ -1,6 +1,8 @@
 using CatalogAPI.Common.Interfaces;
+using CatalogAPI.Consumers;
 using CatalogAPI.Data;
 using CatalogAPI.Services;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -36,6 +38,29 @@ builder.Services.AddMediatR(cfg =>
 //Genre resolver
 builder.Services.AddScoped<IGenreResolver, GenreResolver>();
 
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<CassetteBookingRequestedConsumer>();
+    x.AddConsumer<CassetteReturnRequestedConsumer>();
+    x.AddConsumer<BookingExtendRequestConsumer>();
+
+    x.AddEntityFrameworkOutbox<CatalogDbContext>(o =>
+    {
+        o.UseSqlServer();
+        o.UseBusOutbox();
+    });
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("host.docker.internal", "/", h =>
+        {
+            h.Username("appuser");
+            h.Password("apppassword");
+        });
+        cfg.ConfigureEndpoints(context);
+
+    });
+});
 
 var app = builder.Build();
 

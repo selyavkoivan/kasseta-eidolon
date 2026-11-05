@@ -21,7 +21,7 @@ namespace CatalogAPI.Controllers
             return CreatedAtAction(nameof(GetByMovie), new { movieId = command.MovieId }, id);
         }
 
-        [HttpGet("by-movie/{movieId:guid}")]
+        [HttpGet("movie/{movieId:guid}")]
         [ProducesResponseType(typeof(List<CassetteDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByMovie(Guid movieId, CancellationToken cancellationToken)
         {
@@ -29,22 +29,15 @@ namespace CatalogAPI.Controllers
             return Ok(cassettes);
         }
 
-        /// <summary>
-        /// Изменить физический статус кассеты (Например: Сломалась, Потеряна)
-        /// </summary>
         [HttpPatch("{id:guid}/status")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangeStatus(Guid id, [FromBody] ChangeCassetteStatusCommand command, CancellationToken cancellationToken)
         {
-            // Принудительно подставляем ID из URL в команду
             await mediator.Send(command with { CassetteId = id }, cancellationToken);
             return NoContent();
         }
 
-        /// <summary>
-        /// Списать кассету (полное удаление из оборота)
-        /// </summary>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
