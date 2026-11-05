@@ -1,5 +1,4 @@
 ﻿using BookingAPI.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace BookingAPI.Domain.Entities;
 

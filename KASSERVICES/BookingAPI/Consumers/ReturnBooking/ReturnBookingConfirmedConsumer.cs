@@ -3,7 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts;
 
-namespace BookingAPI.Consumers;
+namespace BookingAPI.Consumers.ReturnBooking;
 
 public class ReturnBookingConfirmedConsumer(BookingDbContext db) : IConsumer<CassetteReturnConfirmed>
 {

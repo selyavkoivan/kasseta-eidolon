@@ -2,4 +2,4 @@
 
 namespace BookingAPI.Features.Bookings.ReturnBooking;
 
-public record ReturnBookingCommand(Guid Id) : IRequest<Guid>;
+public record ReturnBookingCommand(Guid Id) : IRequest<BookingDetailsDto>;

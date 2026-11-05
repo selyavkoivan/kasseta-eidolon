@@ -1,8 +1,6 @@
 ﻿using BookingAPI.Data;
 using BookingAPI.Domain.Enums;
-using BookingAPI.Features.Bookings.CreateBooking;
 using MassTransit;
-using MassTransit.Clients;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Contracts;
@@ -10,11 +8,11 @@ using Shared.Contracts;
 namespace BookingAPI.Features.Bookings.ReturnBooking;
 
 public class ReturnBookingHandler(BookingDbContext dbContext, IRequestClient<CassetteReturnRequested> requestClient)
-    : IRequestHandler<ReturnBookingCommand, Guid>
+    : IRequestHandler<ReturnBookingCommand, BookingDetailsDto>
 {
-    public async Task<Guid> Handle(ReturnBookingCommand request, CancellationToken cancellationToken)
+    public async Task<BookingDetailsDto> Handle(ReturnBookingCommand request, CancellationToken cancellationToken)
     {
-        var booking = await dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == request.Id)
+        var booking = await dbContext.Bookings.FirstOrDefaultAsync(b => b.Id == request.Id, cancellationToken)
             ?? throw new InvalidOperationException("Booking is not found"); ;
 
 
@@ -40,10 +38,9 @@ public class ReturnBookingHandler(BookingDbContext dbContext, IRequestClient<Cas
         {
             throw new InvalidOperationException(rejected.Message.Reason);
         }
-
         booking.Status = BookingStatus.Returned;
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return booking.Id;
+        return booking.ToDetailsDto();
     }
 }

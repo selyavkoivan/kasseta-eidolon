@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookingAPI.Features.Bookings.GetBookingById;
+namespace BookingAPI.Features.Bookings.GetBookingByCassetteId;
 
 public class GetBookingByCassetteIdHandler(BookingDbContext db) : IRequestHandler<GetBookingByCassetteIdQuery, List<BookingDetailsDto>>
 {
@@ -11,13 +11,7 @@ public class GetBookingByCassetteIdHandler(BookingDbContext db) : IRequestHandle
         return await db.Bookings
             .AsNoTracking()
             .Where(b => b.CassetteId == request.Id)
-            .Select(b => new BookingDetailsDto(
-                b.Id,
-                b.CassetteId,
-                b.MovieId,
-                b.BookedAt,
-                b.DueDate,
-                b.Status.ToString()
-            )).ToListAsync(cancellationTokent);
+            .ToDetailsDto()
+            .ToListAsync(cancellationTokent);
     }
 }

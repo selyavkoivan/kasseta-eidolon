@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace BookingAPI.Features.Bookings.GetBookingById;
+namespace BookingAPI.Features.Bookings.GetBookingByMovieId;
 
 public record GetBookingByMovieIdQuery(Guid Id) : IRequest<List<BookingDetailsDto>>;

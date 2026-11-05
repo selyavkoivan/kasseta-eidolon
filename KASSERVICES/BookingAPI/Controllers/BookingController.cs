@@ -1,4 +1,7 @@
-﻿using BookingAPI.Features.Bookings.CreateBooking;
+﻿using BookingAPI.Domain.Entities;
+using BookingAPI.Features.Bookings;
+using BookingAPI.Features.Bookings.CreateBooking;
+using BookingAPI.Features.Bookings.ExtendBooking;
 using BookingAPI.Features.Bookings.GetBookingById;
 using BookingAPI.Features.Bookings.ReturnBooking;
 using MediatR;
@@ -52,7 +55,16 @@ public class BookingController(IMediator mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Return(Guid id, CancellationToken ct)
     {
-        await mediator.Send(new ReturnBookingCommand(id), ct);
-        return NoContent();
+        var booking = await mediator.Send(new ReturnBookingCommand(id), ct);
+        return booking is null ? NotFound() : Ok(booking);
+    }
+
+    [HttpPatch("{id:guid}/extend")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Extend(ExtendBookingCommand command, CancellationToken ct) 
+    {
+        var booking = await mediator.Send(command, ct);
+        return booking is null ? NotFound() : Ok(booking);
     }
 }

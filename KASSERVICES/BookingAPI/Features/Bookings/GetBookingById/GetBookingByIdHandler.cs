@@ -11,14 +11,7 @@ public class GetBookingByIdHandler(BookingDbContext db) : IRequestHandler<GetBoo
         return await db.Bookings
             .AsNoTracking()
             .Where(b => b.Id == request.Id)
-            .Select(b => new BookingDetailsDto(
-                b.Id,
-                b.CassetteId,
-                b.MovieId,
-                b.BookedAt,
-                b.DueDate,
-                b.Status.ToString()
-            ))
+            .ToDetailsDto()
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

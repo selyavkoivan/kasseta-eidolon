@@ -42,7 +42,8 @@ builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<CassetteBookingRequestedConsumer>();
     x.AddConsumer<CassetteReturnRequestedConsumer>();
- 
+    x.AddConsumer<BookingExtendRequestConsumer>();
+
     x.AddEntityFrameworkOutbox<CatalogDbContext>(o =>
     {
         o.UseSqlServer();

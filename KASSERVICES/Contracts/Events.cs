@@ -33,3 +33,20 @@ public record CassetteReturnRejected(
     Guid BookingId,
     Guid CassetteId,
     string Reason);
+
+// extend
+public record BookingExtendRequested(
+    Guid BookingId,
+    Guid CassetteId,
+    DateTimeOffset RequestedAt);
+
+
+public record BookingExtendConfirmed(
+    Guid BookingId,
+    Guid CassetteId,
+    DateTimeOffset ReturnedAt);
+
+public record BookingExtendRejected(
+    Guid BookingId,
+    Guid CassetteId,
+    string Reason);

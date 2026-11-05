@@ -1,5 +1,6 @@
-using BookingAPI.Consumers;
 using BookingAPI.Consumers.Booking;
+using BookingAPI.Consumers.Extend;
+using BookingAPI.Consumers.ReturnBooking;
 using BookingAPI.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -40,9 +41,11 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<BookingConfirmedConsumer>();
     x.AddConsumer<BookingRejectedConsumer>();
 
-
     x.AddConsumer<ReturnBookingConfirmedConsumer>();
     x.AddConsumer<ReturnBookingRejectedConsumer>();
+
+    x.AddConsumer<BookingExtendConfirmedConsumer>();
+    x.AddConsumer<BookingExtendRejectedConsumer>();
 
     x.AddEntityFrameworkOutbox<BookingDbContext>(o =>
     {

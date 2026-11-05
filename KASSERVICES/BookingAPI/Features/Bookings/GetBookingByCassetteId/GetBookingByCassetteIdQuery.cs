@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace BookingAPI.Features.Bookings.GetBookingById;
+namespace BookingAPI.Features.Bookings.GetBookingByCassetteId;
 
 public record GetBookingByCassetteIdQuery(Guid Id) : IRequest<List<BookingDetailsDto>>;
