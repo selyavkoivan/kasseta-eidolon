@@ -1,8 +1,9 @@
-﻿using BookingAPI.Domain.Entities;
-using BookingAPI.Features.Bookings;
+﻿using BookingAPI.Features.Bookings;
 using BookingAPI.Features.Bookings.CreateBooking;
 using BookingAPI.Features.Bookings.ExtendBooking;
+using BookingAPI.Features.Bookings.GetBookingByCassetteId;
 using BookingAPI.Features.Bookings.GetBookingById;
+using BookingAPI.Features.Bookings.GetBookingByMovieId;
 using BookingAPI.Features.Bookings.ReturnBooking;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
