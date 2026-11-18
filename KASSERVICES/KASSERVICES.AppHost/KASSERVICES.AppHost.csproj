@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookingAPI\BookingAPI.csproj" />
     <ProjectReference Include="..\CatalogAPI\CatalogAPI.csproj" />
+    <ProjectReference Include="..\UserService\UserService.csproj" />
   </ItemGroup>
 
 </Project>
